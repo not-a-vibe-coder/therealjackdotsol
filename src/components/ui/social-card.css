@@ -1,0 +1,168 @@
+/* Social card — scoped under .social-card so the generic box/logo names never leak. */
+.social-card {
+  position: relative;
+  width: min(200px, 100%);
+  aspect-ratio: 1;
+  border-radius: 30px;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 24px 48px -20px rgba(30, 29, 29, 0.55);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-card .background {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 60% at 85% 15%, #a3a69f 0%, transparent 70%),
+    radial-gradient(70% 70% at 10% 90%, #08611c 0%, transparent 70%),
+    linear-gradient(135deg, #ccff00 0%, #00c805 55%, #8e918c 100%);
+}
+
+.social-card .logo {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--color-charcoal);
+  white-space: nowrap;
+  transition:
+    top 0.6s ease-in-out,
+    right 0.6s ease-in-out,
+    transform 0.6s ease-in-out,
+    letter-spacing 0.6s ease-in-out;
+}
+
+.social-card .box {
+  position: absolute;
+  padding: 10px;
+  text-align: right;
+  background: rgba(245, 231, 223, 0.32);
+  border-top: 2px solid var(--color-cream);
+  border-right: 1px solid rgba(245, 231, 223, 0.9);
+  border-radius: 10% 13% 42% 0% / 10% 12% 75% 0%;
+  box-shadow: rgba(30, 29, 29, 0.35) -10px 10px 18px -2px;
+  transform-origin: bottom left;
+  transition: all 1s ease-in-out;
+}
+.social-card .box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+.social-card .box:hover::before {
+  opacity: 1;
+}
+.social-card .box1 {
+  width: 70%;
+  height: 70%;
+  bottom: -70%;
+  left: -70%;
+}
+.social-card .box1::before {
+  background: radial-gradient(circle at 30% 107%, #00c805 0%, #0b8a10 90%);
+}
+.social-card .box2 {
+  width: 50%;
+  height: 50%;
+  bottom: -50%;
+  left: -50%;
+}
+.social-card .box2::before {
+  background: radial-gradient(circle at 30% 107%, #1e1d1d 0%, #3a3838 90%);
+}
+.social-card .box3 {
+  width: 30%;
+  height: 30%;
+  bottom: -30%;
+  left: -30%;
+}
+.social-card .box3::before {
+  background: radial-gradient(circle at 30% 107%, #5c5f5b 0%, #3d403c 90%);
+}
+.social-card .box4 {
+  width: 10%;
+  height: 10%;
+  bottom: -10%;
+  left: -10%;
+}
+
+.social-card .box .icon {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.social-card .box .icon .svg {
+  width: 17px;
+  height: 17px;
+  fill: var(--color-charcoal);
+  transition: fill 0.4s ease-in-out, color 0.4s ease-in-out;
+}
+/* lucide icons are stroked, brand marks are filled */
+.social-card .box .icon svg.lucide {
+  fill: none;
+  color: var(--color-charcoal);
+}
+.social-card a:hover .icon .svg,
+.social-card a:focus-visible .icon .svg {
+  fill: var(--color-cream);
+}
+.social-card a:hover .icon svg.lucide,
+.social-card a:focus-visible .icon svg.lucide {
+  fill: none;
+  color: var(--color-cream);
+}
+.social-card a:focus-visible {
+  outline: none;
+}
+.social-card a:focus-visible .box {
+  border-top-color: var(--color-charcoal);
+}
+
+/* Open state: pointer hover, keyboard focus, or always on touch screens. */
+.social-card:hover {
+  transform: scale(1.06);
+}
+.social-card:hover .box,
+.social-card:focus-within .box {
+  bottom: -1px;
+  left: -1px;
+}
+.social-card:hover .logo,
+.social-card:focus-within .logo {
+  top: 13%;
+  right: 12%;
+  transform: translate(0, 0);
+  letter-spacing: 0;
+}
+
+@media (hover: none) {
+  .social-card .box {
+    bottom: -1px;
+    left: -1px;
+  }
+  .social-card .logo {
+    top: 13%;
+    right: 12%;
+    transform: translate(0, 0);
+    letter-spacing: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-card,
+  .social-card .box,
+  .social-card .logo {
+    transition: none;
+  }
+}
