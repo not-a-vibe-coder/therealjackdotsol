@@ -1,0 +1,217 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-cream: #f5e7df;
+  --color-charcoal: #1e1d1d;
+  /* Robinhood-green → ash palette */
+  --color-lime: #ccff00;
+  --color-green: #00c805;
+  --color-forest: #0b8a10;
+  --color-ash-light: #d6d8d2;
+  --color-ash: #a3a69f;
+  --color-ash-dark: #5c5f5b;
+
+  --font-sans: 'Satoshi', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Cabinet Grotesk', 'Satoshi', 'Helvetica Neue', Arial, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-charcoal);
+    color: var(--color-charcoal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-cream);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-charcoal);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-forest);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Static film grain — a single pre-rendered texture, never animated per frame. */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  mix-blend-mode: overlay;
+  opacity: 0.55;
+}
+
+/* Organic gradient field: blurred colour masses drifting slowly with CSS only. */
+.gradient-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #5fd61c;
+}
+.gradient-field .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  will-change: transform;
+  animation: drift 22s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(4%, -3%, 0) scale(1.08) rotate(8deg);
+  }
+  100% {
+    transform: translate3d(-3%, 4%, 0) scale(0.96) rotate(-6deg);
+  }
+}
+
+.text-gradient-together {
+  background-image: linear-gradient(100deg, #ccff00 0%, #00c805 38%, #7fa37a 64%, #a3a69f 82%, #d6d8d2 100%);
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.char {
+  display: inline-block;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-field .blob {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Pre-blurred gradient compositions (radial gradients only — no per-frame filters). */
+.grain-gradient {
+  position: absolute;
+  inset: -15%;
+  will-change: transform;
+  animation: sway 26s ease-in-out infinite alternate;
+}
+.grain-gradient[data-variant='bridge'] {
+  background:
+    radial-gradient(38% 46% at 78% 30%, #c2c5be 0%, #a9aca5 45%, transparent 72%),
+    radial-gradient(30% 40% at 88% 78%, #6c6f6a 0%, #7d807a 40%, transparent 75%),
+    radial-gradient(26% 30% at 58% 50%, #e9ff8a 0%, rgba(233, 255, 138, 0.55) 40%, transparent 75%),
+    radial-gradient(40% 35% at 22% 82%, #08611c 0%, rgba(8, 97, 28, 0.6) 45%, transparent 80%),
+    radial-gradient(50% 50% at 18% 25%, #7cf02a 0%, transparent 80%),
+    linear-gradient(100deg, #00c805 0%, #1fb51a 45%, #a3a69f 70%, #7f827c 100%);
+}
+.grain-gradient[data-variant='footer'] {
+  background:
+    radial-gradient(40% 60% at 12% 20%, #ccff00 0%, rgba(204, 255, 0, 0.6) 40%, transparent 75%),
+    radial-gradient(45% 60% at 55% 70%, #00c805 0%, rgba(0, 200, 5, 0.5) 45%, transparent 78%),
+    radial-gradient(40% 55% at 88% 30%, #9a9d97 0%, rgba(154, 157, 151, 0.55) 45%, transparent 80%),
+    radial-gradient(35% 40% at 80% 90%, #e2e4de 0%, transparent 75%),
+    linear-gradient(110deg, #b8f000 0%, #5edc1f 25%, #00c805 50%, #8e918c 80%, #d6d8d2 100%);
+}
+@keyframes sway {
+  0% {
+    transform: translate3d(-3%, 2%, 0) rotate(-2deg) scale(1);
+  }
+  100% {
+    transform: translate3d(3%, -2%, 0) rotate(2deg) scale(1.06);
+  }
+}
+
+/* Journey: readable stacked flow by default; GSAP adds .is-staged to layer the beats. */
+.journey .beat {
+  position: relative;
+  min-height: 100svh;
+}
+.journey.is-staged .stage {
+  height: 100svh;
+  overflow: hidden;
+}
+.journey.is-staged .beat {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+}
+.journey.is-staged .beat-bridge {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain-gradient {
+    animation: none;
+  }
+}
+
+/* Toolkit: wrapped card groups by default; staged mode layers both hands in one pinned room. */
+.toolkit .tk-swap {
+  display: none;
+}
+.toolkit.is-staged .tk-stage {
+  height: 100svh;
+}
+.toolkit.is-staged .tk-cream {
+  display: block;
+}
+.toolkit.is-staged .tk-swap {
+  display: block;
+  width: 16ch;
+}
+.toolkit.is-staged .tk-group {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  pointer-events: none;
+}
+.toolkit.is-staged .tk-group-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.toolkit.is-staged .tk-cards {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.toolkit.is-staged .tk-card {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: clamp(130px, 13vw, 220px);
+  translate: -50% -50%;
+  pointer-events: auto;
+}
